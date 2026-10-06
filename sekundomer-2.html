@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Секундомер</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#30313d;
+  font-family:Arial,sans-serif;
+}
+.timer{
+  width:250px;
+  min-height:330px;
+  background:#202629;
+  border-radius:6px;
+  box-shadow:0 3px 12px #17191b;
+  overflow:hidden;
+  color:white;
+}
+.tabs{
+  height:45px;
+  display:flex;
+  border-bottom:1px solid #444;
+}
+.tab{
+  width:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:12px;
+  color:#ddd;
+  cursor:pointer;
+}
+.tab.active{
+  border-bottom:2px solid white;
+}
+.content{
+  text-align:center;
+  padding-top:90px;
+}
+.time{
+  display:flex;
+  justify-content:center;
+  gap:7px;
+}
+.box{
+  width:43px;
+}
+.number{
+  width:43px;
+  height:36px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f1f1f1;
+  color:#333;
+  border-radius:4px;
+  font-size:18px;
+}
+.label{
+  margin-top:5px;
+  font-size:9px;
+  color:#ddd;
+}
+button{
+  margin-top:25px;
+  border:0;
+  border-radius:18px;
+  padding:7px 16px;
+  background:white;
+  color:#333;
+  font-weight:bold;
+  cursor:pointer;
+}
+button:active{transform:scale(.96)}
+</style>
+</head>
+<body>
+
+<div class="timer">
+  <div class="tabs">
+    <div class="tab">ЧАСЫ</div>
+    <div class="tab active">СЕКУНДОМЕР</div>
+  </div>
+
+  <div class="content">
+    <div class="time">
+      <div class="box">
+        <div class="number" id="hours">0</div>
+        <div class="label">ЧАС</div>
+      </div>
+      <div class="box">
+        <div class="number" id="minutes">0</div>
+        <div class="label">МИН</div>
+      </div>
+      <div class="box">
+        <div class="number" id="seconds">0</div>
+        <div class="label">СЕК</div>
+      </div>
+    </div>
+
+    <button id="start">START</button>
+  </div>
+</div>
+
+<script>
+let totalSeconds = 0;
+let timer = null;
+
+const hours = document.getElementById("hours");
+const minutes = document.getElementById("minutes");
+const seconds = document.getElementById("seconds");
+const start = document.getElementById("start");
+
+function updateTimer() {
+  let h = Math.floor(totalSeconds / 3600);
+  let m = Math.floor((totalSeconds % 3600) / 60);
+  let s = totalSeconds % 60;
+
+  hours.textContent = h;
+  minutes.textContent = m;
+  seconds.textContent = s;
+}
+
+start.addEventListener("click", function () {
+  if (timer === null) {
+    timer = setInterval(function () {
+      totalSeconds++;
+      updateTimer();
+    }, 1000);
+
+    start.textContent = "STOP";
+  } else {
+    clearInterval(timer);
+    timer = null;
+    start.textContent = "START";
+  }
+});
+</script>
+
+</body>
+</html>
